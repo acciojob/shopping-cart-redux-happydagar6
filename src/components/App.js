@@ -52,135 +52,134 @@ const App = () => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "900px",
-        margin: "20px auto",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1>Shopping Cart</h1>
+    <div className="container py-3" style={{ maxWidth: "980px", fontFamily: "sans-serif" }}>
+      <nav className="navbar navbar-expand-lg mb-3">
+        <div className="text-center w-100">
+          <h1 className="m-0">Shopping cart</h1>
+        </div>
+      </nav>
 
       <h2>Products</h2>
-
-      <div>
+      <div className="row product-list">
         {products.map((product) => (
-          <div
-            key={product.id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <h3>{product.title}</h3>
-            <p>Price: ${product.price}</p>
-            <button onClick={() => dispatch(addToCart(product))}>
-              Add to Cart
-            </button>
-            <button
-              onClick={() =>
-                wishListIds.has(product.id)
-                  ? dispatch(removeFromWishlist(product.id))
-                  : dispatch(addToWishlist(product))
-              }
-              style={{ marginLeft: "8px" }}
-            >
-              {wishListIds.has(product.id)
-                ? "Remove from Wishlist"
-                : "Add to Wishlist"}
-            </button>
+          <div className="col-md-4 mb-3" key={product.id}>
+            <div className="custom-card card h-100">
+              <div className="card-body">
+                <h5 className="card-title">{product.title}</h5>
+                <p className="card-text">Price: ${product.price}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => dispatch(addToCart(product))}
+                >
+                  Add to Cart
+                </button>
+                <button
+                  className="btn btn-outline-secondary ms-2"
+                  onClick={() =>
+                    wishListIds.has(product.id)
+                      ? dispatch(removeFromWishlist(product.id))
+                      : dispatch(addToWishlist(product))
+                  }
+                >
+                  {wishListIds.has(product.id)
+                    ? "Remove from Wishlist"
+                    : "Add to Wishlist"}
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
-      <h2>Wishlist</h2>
-      {wishlist.length === 0 ? (
-        <p>Wishlist is empty</p>
-      ) : (
-        <ul>
-          {wishlist.map((item) => (
-            <li key={item.id} style={{ marginBottom: "8px" }}>
-              {item.title} - {item.price}
-              <button
-                onClick={() => dispatch(addToCart(item))}
-                style={{ marginLeft: "8px" }}
-              >
-                Add to Cart
-              </button>
-              <button
-                onClick={() => dispatch(removeFromWishlist(item.id))}
-                style={{ marginLeft: "8px" }}
-              >
-                Remove from Wishlist
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <h2>Cart</h2>
+      <h2>Cart Items ({cart.length})</h2>
       {cart.length === 0 ? (
         <p>Cart is empty</p>
       ) : (
-        <table
-          border="1"
-          cellPadding="8"
-          style={{ width: "100%", borderCollapse: "collapse" }}
-        >
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Quantity</th>
-              <th>Total</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map((item) => (
-              <tr key={item.id}>
-                <td>{item.title}</td>
-                <td>{item.price}</td>
-                <td>
-                  <button onClick={() => dispatch(decreaseQuantity(item.id))}>
-                    -
+        <div className="row cart-list">
+          {cart.map((item) => (
+            <div className="col-md-6 mb-3" key={item.id}>
+              <div className="custom-card card">
+                <div className="card-body">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p>Price: ${item.price}</p>
+                  <p>Quantity: {item.quantity}</p>
+                  <p>Total: ${Number((item.price * item.quantity).toFixed(2))}</p>
+                  <button
+                    className="btn btn-success me-2"
+                    onClick={() => dispatch(increaseQuantity(item.id))}
+                  >
+                    Increase Quantity
                   </button>
-                  <span style={{ margin: "0 10px" }}>{item.quantity}</span>
-                  <button onClick={() => dispatch(increaseQuantity(item.id))}>
-                    +
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => dispatch(decreaseQuantity(item.id))}
+                  >
+                    Decrease Quantity
                   </button>
-                </td>
-                <td>{Number((item.price * item.quantity).toFixed(2))}</td>
-                <td>
-                  <button onClick={() => dispatch(removeFromCart(item.id))}>
-                    Remove
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => dispatch(removeFromCart(item.id))}
+                  >
+                    Remove from Cart
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
 
+      <h2>Wishlist ({wishlist.length})</h2>
+      {wishlist.length === 0 ? (
+        <p>Wishlist is empty</p>
+      ) : (
+        <div className="row wishlist-list">
+          {wishlist.map((item) => (
+            <div className="col-md-6 mb-3" key={item.id}>
+              <div className="custom-card card">
+                <div className="card-body">
+                  <h5 className="card-title">{item.title}</h5>
+                  <p>Price: ${item.price}</p>
+                  <button
+                    className="btn btn-primary me-2"
+                    onClick={() => dispatch(addToCart(item))}
+                  >
+                    Add to Cart
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => dispatch(removeFromWishlist(item.id))}
+                  >
+                    Remove from Wishlist
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <h2>Coupon</h2>
-      <input 
-      type="text"
-      value={couponInput}
-      onChange={(e) => setCouponInput(e.target.value)}
-      placeholder="Enter coupon"
+      <input
+        className="form-control"
+        type="text"
+        value={couponInput}
+        onChange={(e) => setCouponInput(e.target.value)}
+        placeholder="Enter coupon"
       />
 
-      <button onClick={handleApplyCoupon} style={{ marginLeft: "8px" }}>
+      <button className="btn btn-dark mt-2" onClick={handleApplyCoupon}>
         Apply Coupon
       </button>
 
       {appliedCoupon ? (
-        <button onClick={() => dispatch(clearCoupon())} style={{ marginLeft: "8px" }}>
+        <button
+          className="btn btn-outline-dark mt-2 ms-2"
+          onClick={() => dispatch(clearCoupon())}
+        >
           Clear Coupon
         </button>
-      ): null}
+      ) : null}
       {couponError ? <p style={{ color: "red" }}>{couponError}</p> : null}
 
       <h2>Summary</h2>
