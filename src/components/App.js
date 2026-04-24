@@ -55,7 +55,7 @@ const App = () => {
     <div className="container py-3" style={{ maxWidth: "980px", fontFamily: "sans-serif" }}>
       <nav className="navbar navbar-expand-lg mb-3">
         <div className="text-center w-100">
-          <h1 className="m-0">Shopping cart</h1>
+          <h1 className="m-0">Shopping Cart</h1>
         </div>
       </nav>
 
@@ -65,7 +65,7 @@ const App = () => {
           <div className="col-md-4 mb-3" key={product.id}>
             <div className="custom-card card h-100">
               <div className="card-body">
-                <h5 className="card-title">{product.title}</h5>
+                <h4 className="card-title">{product.title}</h4>
                 <p className="card-text">Price: ${product.price}</p>
                 <button
                   className="btn btn-primary"
@@ -74,7 +74,7 @@ const App = () => {
                   Add to Cart
                 </button>
                 <button
-                  className="btn btn-outline-secondary ms-2"
+                  className="btn-outline-secondary ms-2"
                   onClick={() =>
                     wishListIds.has(product.id)
                       ? dispatch(removeFromWishlist(product.id))
@@ -98,9 +98,9 @@ const App = () => {
         <div className="row cart-list">
           {cart.map((item) => (
             <div className="col-md-6 mb-3" key={item.id}>
-              <div className="custom-card card">
+              <div className="cart-card card">
                 <div className="card-body">
-                  <h5 className="card-title">{item.title}</h5>
+                  <h4 className="card-title">{item.title}</h4>
                   <p>Price: ${item.price}</p>
                   <p>Quantity: {item.quantity}</p>
                   <p>Total: ${Number((item.price * item.quantity).toFixed(2))}</p>
@@ -122,6 +122,12 @@ const App = () => {
                   >
                     Remove from Cart
                   </button>
+                  <button
+                    className="move-to-wishlist ms-2"
+                    onClick={() => dispatch(addToWishlist(item))}
+                  >
+                    Add to Wishlist
+                  </button>
                 </div>
               </div>
             </div>
@@ -136,18 +142,18 @@ const App = () => {
         <div className="row wishlist-list">
           {wishlist.map((item) => (
             <div className="col-md-6 mb-3" key={item.id}>
-              <div className="custom-card card">
+              <div className="wishlist-card card">
                 <div className="card-body">
-                  <h5 className="card-title">{item.title}</h5>
+                  <h4 className="card-title">{item.title}</h4>
                   <p>Price: ${item.price}</p>
                   <button
-                    className="btn btn-primary me-2"
+                    className="btn-primary me-2"
                     onClick={() => dispatch(addToCart(item))}
                   >
                     Add to Cart
                   </button>
                   <button
-                    className="btn btn-danger"
+                    className="btn-danger"
                     onClick={() => dispatch(removeFromWishlist(item.id))}
                   >
                     Remove from Wishlist
